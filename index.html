@@ -2,30 +2,36 @@
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <title>로그인 처리 중...</title>
+    <title>로그인 처리 중</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
 
-  <body style="font-family: system-ui; text-align: center; padding-top: 80px;">
-    <h2>로그인 처리 중입니다…</h2>
-    <p>잠시만 기다려주세요</p>
+  <body
+    style="
+      font-family: system-ui;
+      text-align: center;
+      padding-top: 100px;
+    "
+  >
+    <h2>로그인 처리 중입니다</h2>
+    <p>아래 버튼을 눌러 앱으로 돌아가세요</p>
 
-    <button
-      id="openAppBtn"
+    <a
+      id="deepLink"
+      href="#"
       style="
+        display: inline-block;
         margin-top: 24px;
-        padding: 14px 24px;
+        padding: 14px 26px;
         font-size: 16px;
         border-radius: 8px;
-        border: none;
         background: #3478f6;
         color: white;
-        cursor: pointer;
-        display: none;
+        text-decoration: none;
       "
     >
       앱으로 돌아가기
-    </button>
+    </a>
 
     <script>
       const params = new URLSearchParams(window.location.search);
@@ -37,17 +43,8 @@
         const deepLink =
           "io.supabase.flutter://login-callback?code=" + code;
 
-        // 🔹 1. 버튼 클릭용
-        const btn = document.getElementById("openAppBtn");
-        btn.style.display = "inline-block";
-        btn.onclick = () => {
-          window.location.href = deepLink;
-        };
-
-        // 🔹 2. 자동 시도 (일부 iOS에서 성공)
-        setTimeout(() => {
-          window.location.href = deepLink;
-        }, 500);
+        // 🔥 핵심: href에 직접 넣기
+        document.getElementById("deepLink").href = deepLink;
       }
     </script>
   </body>
