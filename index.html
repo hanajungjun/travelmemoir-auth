@@ -1,25 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="utf-8" />
-    <title>Logging in...</title>
+    <title>로그인 처리 중...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body>
-    <p>로그인 처리 중입니다…</p>
+
+  <body style="font-family: system-ui; text-align: center; padding-top: 80px;">
+    <h2>로그인 처리 중입니다…</h2>
+    <p>잠시만 기다려주세요</p>
+
+    <button
+      id="openAppBtn"
+      style="
+        margin-top: 24px;
+        padding: 14px 24px;
+        font-size: 16px;
+        border-radius: 8px;
+        border: none;
+        background: #3478f6;
+        color: white;
+        cursor: pointer;
+        display: none;
+      "
+    >
+      앱으로 돌아가기
+    </button>
 
     <script>
-      // URL에서 code 파라미터 읽기
       const params = new URLSearchParams(window.location.search);
       const code = params.get("code");
 
-      if (code) {
-        // Flutter 앱으로 다시 돌려보내기
-        const redirectUrl =
+      if (!code) {
+        document.body.innerHTML = "<p>잘못된 접근입니다.</p>";
+      } else {
+        const deepLink =
           "io.supabase.flutter://login-callback?code=" + code;
 
-        window.location.href = redirectUrl;
-      } else {
-        document.body.innerHTML = "<p>잘못된 접근입니다.</p>";
+        // 🔹 1. 버튼 클릭용
+        const btn = document.getElementById("openAppBtn");
+        btn.style.display = "inline-block";
+        btn.onclick = () => {
+          window.location.href = deepLink;
+        };
+
+        // 🔹 2. 자동 시도 (일부 iOS에서 성공)
+        setTimeout(() => {
+          window.location.href = deepLink;
+        }, 500);
       }
     </script>
   </body>
