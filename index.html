@@ -1,15 +1,26 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Travel Memoir Login</title>
-    <script>
-      // Supabase Magic Link → Flutter 앱으로 되돌려보내기
-      window.location =
-        "io.supabase.flutter://login-callback" + window.location.hash;
-    </script>
+    <title>Logging in...</title>
   </head>
   <body>
-    로그인 중입니다...
+    <p>로그인 처리 중입니다…</p>
+
+    <script>
+      // URL에서 code 파라미터 읽기
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get("code");
+
+      if (code) {
+        // Flutter 앱으로 다시 돌려보내기
+        const redirectUrl =
+          "io.supabase.flutter://login-callback?code=" + code;
+
+        window.location.href = redirectUrl;
+      } else {
+        document.body.innerHTML = "<p>잘못된 접근입니다.</p>";
+      }
+    </script>
   </body>
 </html>
